@@ -10,12 +10,23 @@ import boards.TicTacToeBoard;
 public class GameEngine {
     
 
-    public Board start(){
-        return new Board();
+    public Board start(String type){
+         if(type.equals("TicTacToeBoard")){
+            return new TicTacToeBoard();
+        }else{
+            throw new IllegalArgumentException();
+        }
+        
 
     }
 
     public void move(Board board, Player player , Move move){
+        if(board instanceof TicTacToeBoard){
+            TicTacToeBoard board1 = (TicTacToeBoard) board;
+            board1.setCell(Move.getCell(),player.symbol());
+        }else{
+            throw new IllegalArgumentException("Unsupported board type");
+        }
 
     }
 
@@ -27,11 +38,11 @@ public class GameEngine {
             rowComplete = colComplete = diagComplete = revDiagComplete = true; //so java compiler doesn't complain about uninitialized variables
 
             // Check rows for completion
-            for(int i=0:i<3;i++){
+            for(int i=0;i<3;i++){
                  rowComplete = true;
-                firstCharacter=board1.cells[i][0];
-                for(int j=1:j<3;j++){ //0 is already checked
-                    if(!(board1.cells[i][j].equals(firstCharacter))){
+                firstCharacter=board1.getCell(i, 0);
+                for(int j=1;j<3;j++){ //0 is already checked
+                    if(!(board1.getCell(i, j).equals(firstCharacter))){
                         rowComplete = false;
                         break; //optimization to break the loop if a mismatch is found
                     }
@@ -47,11 +58,11 @@ public class GameEngine {
 
             // Check columns for completion
             
-            for(int i=0:i<3;i++){
+            for(int i=0;i<3;i++){
                  colComplete = true;
-                firstCharacter=board1.cells[0][i];
-                for(int j=1:j<3;j++){ //0 is already checked
-                    if(!(board1.cells[j][i].equals(firstCharacter))){
+                firstCharacter=board1.getCell(0, i);
+                for(int j=1;j<3;j++){ //0 is already checked
+                    if(!(board1.getCell(j, i).equals(firstCharacter))){
                         colComplete = false;
                         break; //optimization to break the loop if a mismatch is found
                     }
@@ -66,11 +77,11 @@ public class GameEngine {
             }
             // Check diagonals for completion (x=y)
              
-            for(int i=0:i<3;i++){
+            for(int i=0;i<3;i++){
                  diagComplete = true;
-                firstCharacter=board1.cells[0][0];
+                firstCharacter=board1.getCell(0, 0);
                 
-                if(!(board1.cells[i][i].equals(firstCharacter))){
+                if(!(board1.getCell(i, i).equals(firstCharacter))){
                     diagComplete = false;
                     break;
                 }
@@ -84,11 +95,11 @@ public class GameEngine {
                 return new GameResult(true,firstCharacter);
             }
             //reverse diagonal check (x+y=2)
-            for(int i=0:i<3;i++){
+            for(int i=0;i<3;i++){
                  revDiagComplete = true;
-                firstCharacter=board1.cells[0][2]; //last column of first row
+                firstCharacter=board1.getCell(0, 2); //last column of first row
                 
-                if(!(board1.cells[i][2-i].equals(firstCharacter))){
+                if(!(board1.getCell(i, 2-i).equals(firstCharacter))){
                     revDiagComplete = false;
                     break;
                 }
@@ -103,9 +114,9 @@ public class GameEngine {
             
 
             int countOfFilledCells=0;
-            for(int i=0:i<3;i++){
-                for(int j=1:j<3;j++){ 
-                    if(board1.cells[j][i] !=null){
+            for(int i=0;i<3;i++){
+                for(int j=1;j<3;j++){
+                    if(board1.getCell(j, i) !=null){
                         countOfFilledCells++;
                     }
                 }
