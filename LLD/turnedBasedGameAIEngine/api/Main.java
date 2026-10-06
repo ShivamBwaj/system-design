@@ -1,7 +1,14 @@
-public class Main {
-    public static void main(String[] args) {
-        
-    }
+package api;
+
+import game.Board;
+import game.GameResult;
+import game.Move;
+import game.Player;
+
+import boards.TicTacToeBoard;
+
+public class GameEngine {
+    
 
     public Board start(){
         return new Board();
@@ -116,28 +123,6 @@ public class Main {
     }
 }
 
-class Board {
-    // Board implementation
-}
 
-class TicTacToeBoard extends Board {
-    // TicTacToeBoard implementation
-    String cells[][] = new String[3][3];
-}
 
-class Player {
-    // Player implementation
-}
-class Move {
-    // Move  implementation
-}
-class GameResult {
-    // GameResult implementation
-    boolean isOver;
-    String winner; //could be "X" or "O" or null if no winner yet
-    
-    GameResult(boolean isOver, String winner){
-        this.isOver = isOver;
-        this.winner = winner;
-    }
-}
+
